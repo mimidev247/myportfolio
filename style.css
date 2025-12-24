@@ -7,6 +7,8 @@
     --text-color: #111827;
     --secondary-text-color: #4b5563;
     --button-color: #111827;
+    --accent: #16a34a;
+    --light-color: rgba(16,24,40,0.06);
 }
 
 .dark-theme {
@@ -26,6 +28,8 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         
         }
+
+        img { max-width: 100%; height: auto; display: block; }
 
         body {
             line-height: 1.6;
@@ -68,6 +72,10 @@
             color: var(--text-color);
         }
 
+        header {
+            backdrop-filter: blur(6px);
+        }
+
         nav ul {
             display: flex;
             list-style: none;
@@ -105,10 +113,11 @@
 
         /* Hero Section */
         .hero {
-            height: 100vh;
+            min-height: 70vh;
             display: flex;
             align-items: center;
             padding-top: 100px;
+            padding-bottom: 40px;
         }
 
         .hero-content {
@@ -127,11 +136,18 @@
         }
 
         .hero-title {
-            font-size: 3rem;
+            font-size: clamp(1.6rem, 3.5vw + 0.8rem, 3rem);
             font-weight: 700;
             margin-bottom: 20px;
-            line-height: 1.2;
+            line-height: 1.12;
             color: var(--text-color);
+        }
+
+        .hero-title .accent {
+            background: linear-gradient(90deg, var(--accent), rgba(34,197,94,0.6));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-subtitle {
@@ -142,10 +158,10 @@
         }
 
         .hero-description {
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 1.6vw, 1.1rem);
             color: var(--secondary-text-color);
             margin-bottom: 40px;
-            max-width: 500px;
+            max-width: 680px;
         }
 
         .hero-cta {
@@ -158,12 +174,17 @@
             border-radius: 5px;
             font-weight: 500;
             transition: all 0.3s;
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
         }
 
         .btn-primary {
             background-color: var(--text-color);
             color: #fff;
             border-radius: 27px;
+        }
+
+        .btn-primary {
+            box-shadow: 0 6px 18px rgba(16,24,40,0.08);
         }
 
         .btn-primary:hover {
@@ -204,29 +225,53 @@
         .stat-label {
             color: var(--secondary-color);
             font-size: 0.9rem;
-        }*/
-
-        /* About Section */
-        #about {
-            padding: 100px 0;
-            background: var(--secondary-background);
+        /* Contact button base */
+        .contact-btn{
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+            box-shadow: 0 6px 18px rgba(16,24,40,0.04);
         }
-        
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 2px;
+
+        /* Primary (filled) */
+        .contact-btn-primary{
+            background: linear-gradient(90deg, var(--text-color), #374151);
+            color: #fff;
+            border: 0;
+        }
+
+        .contact-btn-primary:hover,
+        .contact-btn-primary:focus{
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16,24,40,0.08);
+        }
+
+        /* Outline variant */
+        .contact-btn-outline{
+            background: transparent;
             color: var(--text-color);
+            border: 1px solid rgba(16,24,40,0.08);
         }
 
+        .contact-btn-outline:hover,
+        .contact-btn-outline:focus{
+            transform: translateY(-3px);
+            background: rgba(16,24,40,0.03);
+        }
         .about-content {
             display: flex;
+            flex-direction: row;
             gap: 50px;
             align-items: center;
         }
 
         .about-text {
-            flex: 1;
+            flex: 1 1 55%;
         }
 
         .about-text p {
@@ -236,19 +281,21 @@
         }
 
         .about-image {
-            flex: 1;
+            flex: 1 1 45%;
             border-radius: 15px;
             overflow: hidden;
-           /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);*/
-
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .about-image img {
             width: 100%;
-            max-width: 250px;
+            max-width: 320px;
             height: auto;
             display: block;
             margin: 0 auto;
+            border-radius: 8px;
         }
 
         .about-location {
@@ -264,6 +311,7 @@
             margin-top: 50px;
             text-align: center;
             color: var(--text-color);
+            margin-bottom: 12px;
         }
         .services-grid {
             display: grid;
@@ -316,8 +364,8 @@
 
         .work-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
         }
 
         .work-card {
@@ -338,6 +386,9 @@
             position: relative;
             overflow: hidden;
         }
+
+        /* ensure consistent image cropping */
+        .work-image img { width: 100%; height: 100%; object-fit: cover; }
 
         .work-image img {
             width: 100%;
@@ -370,10 +421,17 @@
 
         .tag {
             background-color: var(--light-color);
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 6px 12px;
+            border-radius: 999px;
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        /* Make tag color adapt in dark theme */
+        .dark-theme .tag {
+            background-color: rgba(255,255,255,0.06);
+            color: var(--text-color);
         }
 
         /* Contact Section */
@@ -415,6 +473,10 @@
             border-radius: 27px;
             border: 1px solid var(--text-color);
             transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
         }
 
         .contact-btn1:hover {
@@ -431,14 +493,29 @@
             transform: translateY(-2px);
         }
 
-        .contact-icon1 {
-            font-size: 1rem;
-            color: #fff;
+        .contact-icon {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:32px;
+            height:32px;
+            border-radius:8px;
+            background: rgba(255,255,255,0.03);
+            color: var(--background);
+            font-size: 0.95rem;
         }
-        .contact-icon2{
-            color: var(--text-color);
-            font-size: 1rem;
-        }
+
+        .contact-icon1 { background: rgba(0,0,0,0.18); }
+        .contact-icon2 { background: rgba(0,0,0,0.06); color: var(--text-color); }
+
+        .dark-theme .contact-icon { color: var(--text-color); background: rgba(255,255,255,0.06); }
+        .dark-theme .contact-icon1 { background: rgba(255,255,255,0.08); }
+        .dark-theme .contact-icon2 { background: rgba(255,255,255,0.03); }
+
+        .contact-text{ color: inherit; }
+        .contact-text, .contact-text p{ margin:0; }
+        .contact-method p{ margin:0; }
+        .contact-method { align-items:center; }
         .social-links{
             display:flex;
             flex-direction: row;
@@ -515,7 +592,7 @@
     }
 
     .hero {
-        padding-top: 120px;
+        padding-top: 90px;
         height: auto;
         padding-bottom: 60px;
         flex-direction: column;
@@ -545,6 +622,17 @@
         flex-direction: column;
         gap: 30px;
         align-items: center;
+    }
+
+    /* On small screens place text first, image after */
+    .about-text { order: 1; }
+    .about-image { order: 2; }
+
+    .about-image img {
+        max-width: 90vw;
+        width: 100%;
+        height: auto;
+        max-width: 320px;
     }
 
     .about-image img {
@@ -594,6 +682,7 @@
     .hero-title {
         font-size: 1.4rem;
     }
+        .hero-description { max-width: 95vw; }
     .section-title {
         font-size: 1.3rem;
     }

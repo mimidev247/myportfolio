@@ -1,6 +1,28 @@
-document.getElementById('theme-toggle').addEventListener('click', function() {
-    document.body.classList.toggle('dark-theme');
-});
+const themeToggle = document.getElementById('theme-toggle');
+
+function applyTheme(isDark) {
+    if (isDark) {
+        document.body.classList.add('dark-theme');
+        if (themeToggle) themeToggle.textContent = '☀️';
+    } else {
+        document.body.classList.remove('dark-theme');
+        if (themeToggle) themeToggle.textContent = '🌙';
+    }
+}
+
+// initialize from localStorage (if available)
+const saved = localStorage.getItem('site-theme');
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+let isDark = (saved === 'dark') || (saved === null && prefersDark);
+applyTheme(isDark);
+
+if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+        isDark = !document.body.classList.contains('dark-theme');
+        applyTheme(isDark);
+        localStorage.setItem('site-theme', isDark ? 'dark' : 'light');
+    });
+}
 
 // Mobile Menu Toggle
 const menuToggle = document.getElementById('menu-toggle');
@@ -59,3 +81,7 @@ animateOnScroll();
 
 // Check on scroll
 window.addEventListener('scroll', animateOnScroll);
+
+// Auto-update footer year
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
